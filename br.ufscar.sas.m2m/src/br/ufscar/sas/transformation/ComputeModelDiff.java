@@ -8,11 +8,11 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -99,13 +99,12 @@ public class ComputeModelDiff {
 		Comparison comparison = EMFCompare.builder().setMatchEngineFactoryRegistry(matchEngineRegistry).build().compare(scope);
 
 		EList<Diff> differences = comparison.getDifferences();
-		
+
 		for (Diff difference : differences)
 		{
 			if (difference instanceof ReferenceChange)
 			{
 				ReferenceChange referenceChange = (ReferenceChange) difference;
-				
 
 				if (referenceChange.getReference() instanceof EReference) 
 				{
@@ -123,8 +122,8 @@ public class ComputeModelDiff {
 									if (!lstPackageMove.contains(package2.getName()))
 										lstPackageMove.add(package2.getName());
 								}
-								
-								System.out.println("The package: "+package1.getName() + " does not exist!.");
+
+								System.out.println("[DELETE] - The package: "+package1.getName() + " does not exist!.");
 								lstPackageDelete.add(package1.getName());
 
 							}
@@ -132,7 +131,7 @@ public class ComputeModelDiff {
 
 								if (referenceChange.getKind().toString().equals("ADD")) {
 
-									System.out.println("The package: "+package1.getName() + " does not exist!.");
+									System.out.println("[ADD] - The package: "+package1.getName() + " does not exist!.");
 									lstPackageAdd.add(package1.getName());
 
 								}
@@ -146,28 +145,35 @@ public class ComputeModelDiff {
 											if (!lstPackageMove.contains(package2.getName()))
 												lstPackageMove.add(package2.getName());
 										}
-										System.out.println("The package: "+package1.getName() + " exist!.");
+										System.out.println("[MOVE] - The package: "+package1.getName() + " exist!.");
 										lstPackageMove.add(package1.getName());
 									}
 								}
 							}
 						}
-						
+
 						if (referenceChange.getValue() instanceof Dependency)
 						{
 							Dependency dependency = (Dependency) referenceChange.getValue() ;
-							System.out.println("The relation: "+dependency.getClients().get(0).getName()  + " -> "+dependency.getSuppliers().get(0).getName() + " does not exist!.");
-							if (referenceChange.getKind().toString().equals("DELETE")) 
+							if (referenceChange.getKind().toString().equals("DELETE")) {
 								multimapDependencyDelete.put(dependency.getClients().get(0).getName(), dependency);
-
+								System.out.println("[DELETE] - The relation: "+dependency.getClients().get(0).getName()  + " -> "+dependency.getSuppliers().get(0).getName() + " does not exist!.");
+							}
 							else {
 
 								if (referenceChange.getKind().toString().equals("ADD")) 
+								{
+									System.out.println("[ADD] - The relation: "+dependency.getClients().get(0).getName()  + " -> "+dependency.getSuppliers().get(0).getName() + " does not exist!.");
+
 									multimapDependencyAdd.put(dependency.getClients().get(0).getName(), dependency);
+								}
 								else {
 
 									if (referenceChange.getKind().toString().equals("MOVE")) 
+									{
+										System.out.println("[MOVE] - The relation: "+dependency.getClients().get(0).getName()  + " -> "+dependency.getSuppliers().get(0).getName() + " does not exist!.");
 										multimapDependencyMove.put(dependency.getClients().get(0).getName(), dependency);
+									}
 								}
 							}
 						}
@@ -190,17 +196,13 @@ public class ComputeModelDiff {
 				e.printStackTrace();
 			}
 
-			this.checkDependencies();
-			this.deleteEqualsAbstractions();
-			
+			this.changedAbstractions(result);
+			this.changedDependencies(result);
+				
 			String newString = "";
 			for (String line: result)
 				newString = newString + line +"\n";
-			
-		   newString = Pattern.compile("(3498db)").matcher(newString).replaceAll("FF0000");
-		   newString = Pattern.compile("(707070)").matcher(newString).replaceAll("FF0000");
-		   newString = Pattern.compile("(This is the planned architecture of project)").matcher(newString).replaceAll("Differences between planned and current architectures");
-			
+
 			try {
 				Files.write(Paths.get(pathDifference + "differences.txt"), newString.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING );
 			} catch (IOException e) {
@@ -210,70 +212,75 @@ public class ComputeModelDiff {
 		}
 	}
 
+	private void changedAbstractions(List<String> architecture) {
 
+		for (int i=0; i < architecture.size();i++) 
+		{
+			for (int j=0; j < lstPackageDelete.size(); j++) {
+
+				if (architecture.get(i).contains(lstPackageDelete.get(j))) 
+					architecture.set(i,architecture.get(i).substring(0,architecture.get(i).length()-1) + " #silver {" );
+			}
+		}
+	}
+
+	private void changedDependencies(List<String> architecture) {
+		
+		for (String key: multimapDependencyAdd.keys())
+			multimapDependencyDelete.removeAll(key);
+		
+		for (String key: multimapDependencyDelete.keySet()) {
+			
+			String from = "";
+			String to = "";
+
+			for (Dependency dependency : multimapDependencyDelete.get(key)) {
+				for (String line : architecture) {
+					if (line.contains(key)) {
+						Matcher matcher = Pattern.compile(" \\d+ ").matcher(line); 
+						while (matcher.find()) 
+							from = matcher.group();
+						break;
+					}
+				}
+				
+				for (String line : architecture) {
+					if (line.contains(dependency.getSuppliers().get(0).getName())) {
+						Matcher matcher = Pattern.compile(" \\d+ ").matcher(line); 
+						while (matcher.find()) 
+							to = matcher.group();
+						break;
+					}
+				}
+				
+				for (int i=0; i<architecture.size(); i++) {
+					
+					String find = "";
+					String pattern = from + "\\..{11}" + to;
+					pattern = pattern.trim();
+					Matcher matcher =Pattern.compile(pattern).matcher(architecture.get(i)); 
+					while (matcher.find()) 
+					{
+						find = matcher.group();
+						find = find.replaceAll("707070", "FF0000");
+						find = find + " " + architecture.get(i).substring(architecture.get(i).indexOf(":"), architecture.get(i).length());
+						architecture.set(i,find);
+					}
+				}
+			}
+		}
+	}
+	
 	public void checkDependencies() {
 
 		//Remove from move all component names that must be preserved
-		List<Dependency> lstDependenies = new ArrayList<Dependency>(multimapDependencyDelete.values());
-		for (Dependency dependency : lstDependenies)
+		List<Dependency> lstDependencies = new ArrayList<Dependency>(multimapDependencyDelete.values());
+		for (Dependency dependency : lstDependencies)
 		{
 			lstPackageMove.remove(dependency.getClients().get(0).getName());
 			lstPackageMove.remove(dependency.getSuppliers().get(0).getName());
 		}
 	}
-
-	public void deleteEqualsAbstractions() {
-
-		for (String move : lstPackageMove)
-		{
-			int initPos = this.getLinePosition(move);
-			if (initPos != -1) {
-				int closePos = this.getClosePosition(initPos);
-				result.remove(initPos);
-				result.remove(closePos-1);
-			}
-		}
-	}
-
-	public int getLinePosition(String abstraction) {
-
-		int pos = -1;
-		for (int i=0; i< result.size(); i++) {
-			if (result.get(i).contains(abstraction))
-			{
-				pos = i;
-				break;
-			}
-		}
-		return pos;
-	}
-
-	public int getClosePosition(int initPos) {
-
-		int pos = -1;
-		int mark = 1;
-		for (int i=initPos + 1; i<result.size(); i++)
-		{
-			String line = result.get(i);
-			if (!StringUtils.isBlank((CharSequence) line))
-			{
-				if (line.contains("{"))
-					mark++;
-				else 
-				{
-					if (line.contains("}"))
-					{
-						mark--;
-						if (mark == 0)
-						{
-							pos = i;
-							break;
-						}
-					}
-				}
-			}
-		}
-		return pos;
-	}
+	
 }
 

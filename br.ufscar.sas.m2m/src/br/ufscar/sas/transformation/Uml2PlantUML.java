@@ -204,6 +204,16 @@ public class Uml2PlantUML {
 				"	FontColor<<Analyzer>> white\n" + 
 				"	FontColor<<Planner>> white\n" + 
 				"	FontColor<<Effector>> white\n" + 
+				"	backgroundColor<<Knowledge>> #white\n" + 
+				"	FontColor<<Knowledge>> #black\n" + 
+				"	backgroundColor<<Managed Subsystem>> #white\n" + 
+				"	FontColor<<Managed Subsystem>> #black\n" + 
+				"	backgroundColor<<Managing Subsystem>> #white\n" + 
+				"	FontColor<<Managing Subsystem>> #black\n" + 
+				"	backgroundColor<<Loop>> #white\n" + 
+				"	FontColor<<Loop>> #black\n" +
+				"	backgroundColor<<Loop Manager>> #white\n" + 
+				"	FontColor<<Loop Manager>> #black\n" + 
 				"}\n" +
 				"@enduml";
 
