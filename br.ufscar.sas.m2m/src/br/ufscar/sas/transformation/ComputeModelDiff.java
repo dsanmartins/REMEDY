@@ -264,6 +264,8 @@ public class ComputeModelDiff {
 						find = matcher.group();
 						find = find.replaceAll("707070", "FF0000");
 						find = find + " " + architecture.get(i).substring(architecture.get(i).indexOf(":"), architecture.get(i).length());
+						find = find.replaceAll("must-use", "<color:#FF0000>must-use");
+						find = find.replaceAll("must-not-use", "<color:#FF0000>must-use");
 						architecture.set(i,find);
 					}
 				}

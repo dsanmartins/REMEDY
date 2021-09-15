@@ -27,7 +27,7 @@ public class DataConstraint {
 
 		SqliteDb mydb = new SqliteDb(dbDriver,url);
 		mydb.executeStmt("create table IF NOT EXISTS existence (project_name text, abstraction text, result integer)");
-		mydb.executeStmt("create table IF NOT EXISTS composite (project_name text, abstraction text, result integer)");
+		mydb.executeStmt("create table IF NOT EXISTS composite (project_name text, abstraction1 text, abstraction2 text, result integer)");
 		mydb.executeStmt("create table IF NOT EXISTS access (project_name text, abstraction1 text, abstraction2 text, result integer) ");
 		mydb.executeStmt("create table IF NOT EXISTS domain (project_name text, abstraction1 text, abstraction2 text, result integer) ");
 		mydb.executeStmt("create table IF NOT EXISTS drifts (project_name text, component integer, subsystem integer, association integer, domain integer) ");
@@ -91,12 +91,12 @@ public class DataConstraint {
 		SqliteDb mydb = new SqliteDb(dbDriver,url);
 		mydb.executeStmt("insert into existence(project_name, abstraction, result) values"
 				+ " ('" + projectName + "','" +   abstraction + "',"  + result + ");"); 
-		
+
 		ResultSet rs = mydb.executeQry("select last_insert_rowid()"); 
 		while (rs.next()) {
 			rtn = Integer.valueOf(rs.getObject(1).toString());
 		}
-		
+
 		mydb.closeConnection();
 		return rtn;
 	}
@@ -109,17 +109,17 @@ public class DataConstraint {
 		mydb.closeConnection();
 	}
 
-	public int insertComposite(String projectName, String abstraction, int result) throws Exception {
+	public int insertComposite(String projectName, String abstraction1, String abstraction2, int result) throws Exception {
 
 		int rtn =-1;
 		SqliteDb mydb = new SqliteDb(dbDriver,url);
-		mydb.executeStmt("insert into composite(project_name, abstraction, result) values"
-				+ " ('" + projectName + "','" +   abstraction + "',"  + result + ");"); 
+		mydb.executeStmt("insert into composite(project_name, abstraction1, abstraction2, result) values"
+				+ " ('" + projectName + "','" +   abstraction1 + "','" +  abstraction2 + "',"  + result + ");"); 
 		ResultSet rs = mydb.executeQry("select last_insert_rowid()"); 
 		while (rs.next()) {
 			rtn = Integer.valueOf(rs.getObject(1).toString());
 		}
-		
+
 		mydb.closeConnection();
 		return rtn;
 	}
@@ -142,7 +142,7 @@ public class DataConstraint {
 		while (rs.next()) {
 			rtn = Integer.valueOf(rs.getObject(1).toString());
 		}
-		
+
 		mydb.closeConnection();
 		return rtn;
 	}
@@ -165,7 +165,7 @@ public class DataConstraint {
 		while (rs.next()) {
 			rtn = Integer.valueOf(rs.getObject(1).toString());
 		}
-		
+
 		mydb.closeConnection();
 		return rtn;
 	}
@@ -337,7 +337,7 @@ public class DataConstraint {
 				"    from existence_rules  \n" + 
 				") A  left join mapping B  ON A._key LIKE  B._key || '%' left join architectural_anomaly C on  C.id = B.id Order by A.result;");		
 		while (rs.next()) {
-			lst.add(this.setTextExist(rs.getObject(1).toString())+"|"+rs.getObject(2).toString()+"|"+rs.getObject(3).toString());
+			lst.add(this.setTextExist(rs.getObject(1).toString(), rs.getObject(3).toString())+"|"+rs.getObject(2).toString()+"|"+rs.getObject(3).toString());
 		}
 		mydb.closeConnection();
 		return lst;
@@ -354,7 +354,7 @@ public class DataConstraint {
 				"    from composite_rules  \n" + 
 				") A  left join mapping B  ON A._key LIKE  B._key || '%' left join architectural_anomaly C on  C.id = B.id  Where A.result <> -1 Order by A.result;");		
 		while (rs.next()) {
-			lst.add(this.setTextComposition(rs.getObject(1).toString())+"|"+rs.getObject(2).toString()+"|"+rs.getObject(3).toString());
+			lst.add(this.setTextComposition(rs.getObject(1).toString(), rs.getObject(3).toString())+"|"+rs.getObject(2).toString()+"|"+rs.getObject(3).toString());
 		}
 		mydb.closeConnection();
 		return lst;
@@ -415,63 +415,60 @@ public class DataConstraint {
 		return lst;
 	}
 
-	private String setTextExist(String text) {
+	private String setTextExist(String text, String value) {
 
-		String part1 = text.split(Pattern.quote("_"))[0];
-		String part2 = text.split(Pattern.quote("_"))[1];
-		String part3 = text.split(Pattern.quote("_"))[2];
-		return part1.toUpperCase()+ " " + part2+"_" + part3;
+		String part1 = text.split(Pattern.quote("T"))[0];
+		String part2 = text.split(Pattern.quote("T"))[1];
+
+		if (value.equals("1")) 
+			return part2 + " was found";
+		else
+			return part2 + " was not found";
+
 	}
 
-	private String setTextComposition(String text) {
+	private String setTextComposition(String text, String value) {
 
-		String part2 = text.split(Pattern.quote("_"))[1];
-		String part3 = text.split(Pattern.quote("_"))[2];
-		return "ISCOMPOSING " + part2+"_" + part3;
+		String part2 = text.split(Pattern.quote("T"))[1];
+		String part3 = text.split(Pattern.quote("T"))[2];
+
+		if (value.equals("1"))
+			return part2+" is composing " + part3;
+		else
+			return part2+" is not composing " + part3;
 	}
 
 	private String setTextAccess(String text) {
 
-		if (text.split(Pattern.quote("_")).length == 5)
+		if (text.split(Pattern.quote("T"))[0].equals("access"))
 		{
-			String part2 = text.split(Pattern.quote("_"))[1];
-			String part3 = text.split(Pattern.quote("_"))[2];
-			String part4 = text.split(Pattern.quote("_"))[3];
-			String part5 = text.split(Pattern.quote("_"))[4];
-			return part2 + "_"+ part3 + " MUST-USE " + part4 + "_"+ part5;
-
+			String part2 = text.split(Pattern.quote("T"))[1];
+			String part3 = text.split(Pattern.quote("T"))[2];
+			return part2 + " must use " + part3;
 		}			
 		else 
 		{
-			String part3 = text.split(Pattern.quote("_"))[2];
-			String part4 = text.split(Pattern.quote("_"))[3];
-			String part5 = text.split(Pattern.quote("_"))[4];
-			String part6 = text.split(Pattern.quote("_"))[5];
-			return part3 + "_"+ part4 + " MUST-NOT-USE " + part5 + "_"+ part6;
+			String part3 = text.split(Pattern.quote("T"))[2];
+			String part4 = text.split(Pattern.quote("T"))[3];
+			return part3 +" must not use " + part4;
 		}
 
 	}
 
 	private String setTextDomain(String text) {
 
-		if (text.split(Pattern.quote("_")).length == 6)
+		if (text.split(Pattern.quote("T"))[1].equals("not"))
 		{
-			String part3 = text.split(Pattern.quote("_"))[2];
-			String part4 = text.split(Pattern.quote("_"))[3];
-			String part5 = text.split(Pattern.quote("_"))[4];
-			String part6 = text.split(Pattern.quote("_"))[5];
-			return part3 + "_"+ part4 + " MUST-USE " + part5 + "_"+ part6;
-
+			String part3 = text.split(Pattern.quote("T"))[3];
+			String part4 = text.split(Pattern.quote("T"))[4];
+			return part3 + " must not use " + part4;
 		}			
 		else 
 		{
-			String part4 = text.split(Pattern.quote("_"))[3];
-			String part5 = text.split(Pattern.quote("_"))[4];
-			String part6 = text.split(Pattern.quote("_"))[5];
-			String part7 = text.split(Pattern.quote("_"))[6];
-			return part4 + "_"+ part5 + " MUST-NOT-USE " + part6 + "_"+ part7;
+			String part2 = text.split(Pattern.quote("T"))[2];
+			String part3 = text.split(Pattern.quote("T"))[3];
+			return part2 +  " must use " + part3;
 		}
-
 	}
 
 	public String getTotalViolations() throws Exception
@@ -494,9 +491,9 @@ public class DataConstraint {
 		}
 		mydb.closeConnection();
 		return result;
-		
+
 	}
-	
+
 	public String getTotalPassed() throws Exception
 	{
 		String result= "";
@@ -517,50 +514,50 @@ public class DataConstraint {
 		}
 		mydb.closeConnection();
 		return result;
-		
+
 	}
-	
+
 	public void checkRealConstraints() throws Exception {
-		
-		
+
+
 		SqliteDb mydb = new SqliteDb(dbDriver,url);
 		mydb.executeStmt("update composite \n" + 
 				"set result = -1\n" + 
 				"where \n" + 
-				"     abstraction not in \n" + 
+				"     abstraction1 not in \n" + 
 				"     (select abstraction from existence where result = 1);"); 
-		
+
 		mydb.executeStmt("update composite_rules\n" + 
 				"set result = -1\n" + 
 				"where id in (select rowid from composite where result = -1);");
-		
-		
+
+
 		mydb.executeStmt("update access \n" + 
 				"set result = -1\n" + 
 				"where \n" + 
 				"     (abstraction1 not in (select abstraction from existence where result = 1) or \n" + 
 				"      abstraction2 not in (select abstraction from existence where result = 1) );");
-		
-		
+
+
 		mydb.executeStmt("update access_rules\n" + 
 				"set result = -1\n" + 
 				"where id in (select rowid from access where result = -1);");
-		
-		
+
+
 		mydb.executeStmt("update domain \n" + 
 				"set result = -1\n" + 
 				"where \n" + 
 				"     (abstraction1 not in (select abstraction from existence where result = 1) or \n" + 
 				"      abstraction2 not in (select abstraction from existence where result = 1) );");
-		
+
 		mydb.executeStmt("update domain_rules\n" + 
 				"set result = -1\n" + 
 				"where id in (select rowid from domain where result = -1);");
-		
+
 		mydb.closeConnection();
-		
+
 	}
-	
+
 	public List<String> getIgnoredRules() throws Exception
 	{
 		List<String> lst = new ArrayList<String>();
@@ -576,12 +573,12 @@ public class DataConstraint {
 		SqliteDb mydb = new SqliteDb(dbDriver,url);
 		ResultSet rs = mydb.executeQry("select _key,'Composite' from composite_rules where result = -1;");		
 		while (rs.next()) { 
-			lst.add(this.setTextComposition(rs.getObject(1).toString())+"|"+rs.getObject(2).toString());
+			lst.add(this.setTextComposition(rs.getObject(1).toString(), "-1")+"|"+rs.getObject(2).toString());
 		}
 		mydb.closeConnection();
 		return lst;
 	}
-	
+
 	public List<String> getIgnoredRulesAccess() throws Exception
 	{
 		List<String> lst = new ArrayList<String>();
@@ -593,7 +590,7 @@ public class DataConstraint {
 		mydb.closeConnection();
 		return lst;
 	}
-	
+
 	public List<String> getIgnoredRulesDomain() throws Exception
 	{
 		List<String> lst = new ArrayList<String>();

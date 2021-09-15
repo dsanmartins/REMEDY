@@ -51,6 +51,7 @@ import org.eclipse.nebula.jface.gridviewer.GridTableViewer;
 import org.eclipse.nebula.widgets.grid.GridColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -285,7 +286,7 @@ public class MainView extends ViewPart implements IPartListener2 {
 		radios[1].setSelection(false);
 
 		Group tableViewGroup = new Group(group, SWT.NONE);
-		tableViewGroup.setText("Mapping Code Elements with Abstractions");
+		tableViewGroup.setText("Mapping Code Elements to Abstractions");
 		tableViewGroup.setBounds(10, 115, 550, 450);
 		tableViewGroup.setLayout(new FillLayout());
 		tab1.setControl(group);
@@ -332,7 +333,7 @@ public class MainView extends ViewPart implements IPartListener2 {
 		Button processAnnotation = new Button(controlGroup, SWT.NONE);
 		processAnnotation.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 		processAnnotation.setBounds(400, 0, 140, 25);
-		processAnnotation.setText("Mapping Process");
+		processAnnotation.setText("Apply Mappings");
 
 
 		radios[0].addSelectionListener(new SelectionListener() {
@@ -577,135 +578,173 @@ public class MainView extends ViewPart implements IPartListener2 {
 		controlGroup2.setBounds(10, 200, 450,340);
 
 		final Color orange = new Color(Display.getCurrent(), 255,0,0);
+		final Color white = new Color(Display.getCurrent(), 255,255,255);
 
+		Label lblViolations =  new Label(controlGroup2, SWT.NONE);
+		lblViolations.setText("Violations: ");
+		lblViolations.setBounds(10, 05, 80, 20);
+		
+		StyledText txtViolation =  new StyledText(controlGroup2, SWT.NONE);
+		txtViolation.setText("0");
+		txtViolation.setBounds(80, 05, 30, 20);
+		txtViolation.setEditable(false);
+		txtViolation.setForeground(orange); 
+		txtViolation.setBackground(white); 
+		
+		Label lblIgnored =  new Label(controlGroup2, SWT.NONE);
+		lblIgnored.setText("Ignored: ");
+		lblIgnored.setBounds(150, 05, 80, 20);
+		
+		StyledText txtIgnored =  new StyledText(controlGroup2, SWT.NONE);
+		txtIgnored.setText("0");
+		txtIgnored.setBounds(210, 05, 30, 20);
+		txtIgnored.setEditable(false);
+		txtIgnored.setForeground(orange); 
+		txtIgnored.setBackground(white); 
+		
+		Label lblUnchecked =  new Label(controlGroup2, SWT.NONE);
+		lblUnchecked.setText("Unchecked: ");
+		lblUnchecked.setBounds(280, 05, 80, 20);
+		
+		StyledText txtUnchecked =  new StyledText(controlGroup2, SWT.NONE);
+		txtUnchecked.setText("0");
+		txtUnchecked.setBounds(360, 05, 30, 20);
+		txtUnchecked.setEditable(false);
+		txtUnchecked.setForeground(orange); 
+		txtUnchecked.setBackground(white); 
+		
+		Label separator1 = new Label(controlGroup2, SWT.SEPARATOR | SWT.SHADOW_OUT | SWT.HORIZONTAL);
+		separator1.setBounds(0, 25, 450, 3);
+		separator1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		
 		Text txtExistence =  new Text(controlGroup2, SWT.NONE);
 		txtExistence.setText("0");
-		txtExistence.setBounds(10, 15, 30, 20);
+		txtExistence.setBounds(10, 35, 30, 20);
 		txtExistence.setEditable(false);
 		txtExistence.setForeground(orange); 
 
 		Label of1 =  new Label(controlGroup2, SWT.NONE);
 		of1.setText("of");
-		of1.setBounds(45, 15, 30, 20);
+		of1.setBounds(45, 35, 30, 20);
 
 		Text txtExistenceRule =  new Text(controlGroup2, SWT.NONE);
 		txtExistenceRule.setText("0");
-		txtExistenceRule.setBounds(70, 15, 30, 20);
+		txtExistenceRule.setBounds(70, 35, 30, 20);
 		txtExistenceRule.setEditable(false);
 
 		Text txtComposition =  new Text(controlGroup2, SWT.NONE);
 		txtComposition.setText("0");
-		txtComposition.setBounds(10, 45, 30, 20);
+		txtComposition.setBounds(10, 65, 30, 20);
 		txtComposition.setEditable(false);
 		txtComposition.setForeground(orange); 
 
 		Label of2 =  new Label(controlGroup2, SWT.NONE);
 		of2.setText("of");
-		of2.setBounds(45, 45, 30, 20);
+		of2.setBounds(45, 65, 30, 20);
 
 		Text txtCompositionRule =  new Text(controlGroup2, SWT.NONE);
 		txtCompositionRule.setText("0");
-		txtCompositionRule.setBounds(70, 45, 30, 20);
+		txtCompositionRule.setBounds(70, 65, 30, 20);
 		txtCompositionRule.setEditable(false);
 
 		Text txtAccess =  new Text(controlGroup2, SWT.NONE);
 		txtAccess.setText("0");
-		txtAccess.setBounds(10, 75, 30, 20);
+		txtAccess.setBounds(10, 95, 30, 20);
 		txtAccess.setEditable(false);
 		txtAccess.setForeground(orange); 
 
 		Label of3 =  new Label(controlGroup2, SWT.NONE);
 		of3.setText("of");
-		of3.setBounds(45, 75, 30, 20);
+		of3.setBounds(45, 95, 30, 20);
 
 		Text txtAccessRule =  new Text(controlGroup2, SWT.NONE);
 		txtAccessRule.setText("0");
-		txtAccessRule.setBounds(70, 75, 30, 20);
+		txtAccessRule.setBounds(70, 95, 30, 20);
 		txtAccessRule.setEditable(false);
 
 		Text txtDomain =  new Text(controlGroup2, SWT.NONE);
 		txtDomain.setText("0");
-		txtDomain.setBounds(10, 105, 30, 20);
+		txtDomain.setBounds(10, 125, 30, 20);
 		txtDomain.setEditable(false);
 		txtDomain.setForeground(orange); 
 
 		Label of4 =  new Label(controlGroup2, SWT.NONE);
 		of4.setText("of");
-		of4.setBounds(45, 105, 30, 20);
+		of4.setBounds(45, 125, 30, 20);
 
 		Text txtDomainRule =  new Text(controlGroup2, SWT.NONE);
 		txtDomainRule.setText("0");
-		txtDomainRule.setBounds(70, 105, 30, 20);
+		txtDomainRule.setBounds(70, 125, 30, 20);
 		txtDomainRule.setEditable(false);
 
 		Label lblInfo1 =  new Label(controlGroup2, SWT.NONE);
 		lblInfo1.setText("violate abstraction presence rules");
-		lblInfo1.setBounds(110, 15, 250, 20);
+		lblInfo1.setBounds(110, 35, 250, 20);
 
 		Label lblInfo2 =  new Label(controlGroup2, SWT.NONE);
 		lblInfo2.setText("violate abstraction composition rules");
-		lblInfo2.setBounds(110, 45, 250, 20);
+		lblInfo2.setBounds(110, 65, 250, 20);
 
 		Label lblInfo3 =  new Label(controlGroup2, SWT.NONE);
 		lblInfo3.setText("violate access rules");
-		lblInfo3.setBounds(110, 75, 250, 20);
+		lblInfo3.setBounds(110, 95, 250, 20);
 
 		Label lblInfo4 =  new Label(controlGroup2, SWT.NONE);
 		lblInfo4.setText("violate domain rules");
-		lblInfo4.setBounds(110, 105, 250, 20);
+		lblInfo4.setBounds(110, 125, 250, 20);
 
 		Label separator = new Label(controlGroup2, SWT.SEPARATOR | SWT.SHADOW_OUT | SWT.HORIZONTAL);
-		separator.setBounds(0, 135, 450, 3);
+		separator.setBounds(0, 155, 450, 3);
 		separator.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		Text txtIgnoredComposite =  new Text(controlGroup2, SWT.NONE);
 		txtIgnoredComposite.setText("0");
-		txtIgnoredComposite.setBounds(10, 145, 30, 20);
+		txtIgnoredComposite.setBounds(10, 165, 30, 20);
 		txtIgnoredComposite.setEditable(false);
 
 		Label lblInfo5 =  new Label(controlGroup2, SWT.NONE);
 		lblInfo5.setText("composite rules ignored");
-		lblInfo5.setBounds(50, 145, 250, 20);
+		lblInfo5.setBounds(50, 165, 250, 20);
 
 		Text txtIgnoredAccess =  new Text(controlGroup2, SWT.NONE);
 		txtIgnoredAccess.setText("0");
-		txtIgnoredAccess.setBounds(10, 175, 30, 20);
+		txtIgnoredAccess.setBounds(10, 195, 30, 20);
 		txtIgnoredAccess.setEditable(false);
 
 		Label lblInfo6 =  new Label(controlGroup2, SWT.NONE);
 		lblInfo6.setText("access rules ignored");
-		lblInfo6.setBounds(50, 175, 250, 20);
+		lblInfo6.setBounds(50, 195, 250, 20);
 
 		Text txtIgnoredDomain =  new Text(controlGroup2, SWT.NONE);
 		txtIgnoredDomain.setText("0");
-		txtIgnoredDomain.setBounds(10, 205, 30, 20);
+		txtIgnoredDomain.setBounds(10, 225, 30, 20);
 		txtIgnoredDomain.setEditable(false);
 
 		Label lblInfo7 =  new Label(controlGroup2, SWT.NONE);
 		lblInfo7.setText("domain rules ignored");
-		lblInfo7.setBounds(50, 205, 250, 20);
+		lblInfo7.setBounds(50, 225, 250, 20);
 
 		Label separator2 = new Label(controlGroup2, SWT.SEPARATOR | SWT.SHADOW_OUT | SWT.HORIZONTAL);
-		separator2.setBounds(0, 235, 450, 3);
+		separator2.setBounds(0, 255, 450, 3);
 		separator2.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		Text txtDrifts1 =  new Text(controlGroup2, SWT.NONE);
 		txtDrifts1.setText("0");
-		txtDrifts1.setBounds(10, 245, 30, 20);
+		txtDrifts1.setBounds(10, 265, 30, 20);
 		txtDrifts1.setEditable(false);
 
 		Label lblDrifts1 =  new Label(controlGroup2, SWT.NONE);
 		lblDrifts1.setText("unchecked abstractions (in current but not in planned)");
-		lblDrifts1.setBounds(50, 245, 330, 20);
+		lblDrifts1.setBounds(50, 265, 330, 20);
 
 		Text txtDrifts2 =  new Text(controlGroup2, SWT.NONE);
 		txtDrifts2.setText("0");
-		txtDrifts2.setBounds(10, 275, 30, 20);
+		txtDrifts2.setBounds(10, 295, 30, 20);
 		txtDrifts2.setEditable(false);
 
 		Label lblDrifts2 =  new Label(controlGroup2, SWT.NONE);
 		lblDrifts2.setText("unchecked relations (in current but not in planned)");
-		lblDrifts2.setBounds(50, 275, 330, 20);
+		lblDrifts2.setBounds(50, 295, 330, 20);
 
 		Button checkConstraint = new Button(group, SWT.NONE);
 		checkConstraint.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
@@ -948,6 +987,10 @@ public class MainView extends ViewPart implements IPartListener2 {
 						// TODO Auto-generated catch block
 						e3.printStackTrace();
 					}
+					
+					txtViolation.setText(String.valueOf(Integer.parseInt(txtExistence.getText())+ Integer.parseInt(txtComposition.getText()) +
+							Integer.parseInt(txtAccess.getText()) + Integer.parseInt(txtDomain.getText())));
+					
 
 					try {
 						final List<Integer> lstValues = checkConstraintMethod.getIgnoredValues();
@@ -958,6 +1001,9 @@ public class MainView extends ViewPart implements IPartListener2 {
 						// TODO Auto-generated catch block
 						e3.printStackTrace();
 					}
+					
+					txtIgnored.setText(String.valueOf(Integer.parseInt(txtIgnoredComposite.getText())+ Integer.parseInt(txtIgnoredAccess.getText()) +
+							Integer.parseInt(txtIgnoredDomain.getText())));
 
 					try {
 						final List<Integer> lstValues = checkConstraintMethod.getUntestedValues();
@@ -967,7 +1013,9 @@ public class MainView extends ViewPart implements IPartListener2 {
 					} catch (Exception e3) {
 						// TODO Auto-generated catch block
 						e3.printStackTrace();
-					}
+					} 
+					
+					txtUnchecked.setText(String.valueOf(Integer.parseInt(txtDrifts1.getText())+ Integer.parseInt(txtDrifts2.getText())));
 
 					grid1.setInput(anomalyObject1);
 					grid2.setInput(anomalyObject2);
@@ -1045,14 +1093,17 @@ public class MainView extends ViewPart implements IPartListener2 {
 					plot2.setForegroundAlpha(0.5f);
 					ChartComposite chartComposite2 = new ChartComposite(controlGroup9, SWT.NONE, jchart2, true);
 					chartComposite2.setSize(450,240);
-
+					
 
 					MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Information", "The model was checked against ocl restrictions.");
 				}
 				else {
 					MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Information", "Please verify whether .ocl and current architecture files exist.");
 				}
+				
 			}
+			
+			
 		});
 
 		btnFCA.addSelectionListener(new SelectionAdapter() {
@@ -1202,7 +1253,7 @@ public class MainView extends ViewPart implements IPartListener2 {
 		column2.setResizeable(false);
 		column2.setWidth(235);
 		column2.setWordWrap(true);
-		column2.setText("Name");
+		column2.setText("Drift Name");
 
 		gridTableViewer.setContentProvider(new ArrayContentProvider());
 		gridTableViewer.setLabelProvider(new TableLabelAnomalyMappedProvider());		

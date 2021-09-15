@@ -36,7 +36,7 @@
             id="br.ufscar.sas.view.commands.category">
       </category>
       <command
-            name="Architectural Drifts ASs"
+            name="ACC of Adaptive Part in ASs"
             categoryId="br.ufscar.sas.view.commands.category"
             id="br.ufscar.sas.view.commands.ui">
       </command>

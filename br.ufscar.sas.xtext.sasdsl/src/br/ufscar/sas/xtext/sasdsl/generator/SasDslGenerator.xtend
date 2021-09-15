@@ -44,7 +44,7 @@ import org.eclipse.xtext.generator.IGeneratorContext
 /**
  * Generates code from your model files on save.
  * 
- * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#code-generation
+ * See https://www.eclipse.org/Xtext/documentation/303TruntimeTconcepts.html#code-generation
  */
 class SasDslGenerator extends AbstractGenerator {
 
@@ -268,11 +268,9 @@ class SasDslGenerator extends AbstractGenerator {
 									for (a:analyzer)
 									{
 										var ruleMonitor = SasDslFactory.eINSTANCE.createDSLRuleMonitor
-										var dslMonitor = EcoreUtil2.getAllContentsOfType(architecture,DSLMonitor).findFirst[it.name === m.name]
-										var dslAnalyzer = EcoreUtil2.getAllContentsOfType(architecture,DSLAnalyzer).findFirst[it.name === a.name]
-										ruleMonitor.monitor = dslMonitor
-										ruleMonitor.analyzer = dslAnalyzer
-										ruleMonitor.access = "must-use"
+										ruleMonitor.monitor = EcoreUtil2.getAllContentsOfType(architecture,DSLMonitor).findFirst[it.name === m.name]
+										ruleMonitor.analyzer = EcoreUtil2.getAllContentsOfType(architecture,DSLAnalyzer).findFirst[it.name === a.name]
+										ruleMonitor.access = "must-use|domain"
 										withDomainRules.add(ruleMonitor)
 									}
 								}
@@ -296,11 +294,9 @@ class SasDslGenerator extends AbstractGenerator {
 									for (p:planner)
 									{
 										var ruleAnalyzer = SasDslFactory.eINSTANCE.createDSLRuleAnalyzer
-										var dslAnalyzer = EcoreUtil2.getAllContentsOfType(architecture,DSLAnalyzer).findFirst[it.name === a.name]
-										var dslPlanner = EcoreUtil2.getAllContentsOfType(architecture,DSLPlanner).findFirst[it.name === p.name]
-										ruleAnalyzer.analyzer = dslAnalyzer
-										ruleAnalyzer.planner = dslPlanner
-										ruleAnalyzer.access = "must-use"
+										ruleAnalyzer.analyzer = EcoreUtil2.getAllContentsOfType(architecture,DSLAnalyzer).findFirst[it.name === a.name]
+										ruleAnalyzer.planner = EcoreUtil2.getAllContentsOfType(architecture,DSLPlanner).findFirst[it.name === p.name]
+										ruleAnalyzer.access = "must-use|domain"
 										withDomainRules.add(ruleAnalyzer)
 									}
 								}
@@ -323,11 +319,9 @@ class SasDslGenerator extends AbstractGenerator {
 									for (e:executor)
 									{
 										var rulePlanner = SasDslFactory.eINSTANCE.createDSLRulePlanner
-										var dslPlanner = EcoreUtil2.getAllContentsOfType(architecture,DSLPlanner).findFirst[it.name === p.name]
-										var dslExecutor = EcoreUtil2.getAllContentsOfType(architecture,DSLExecutor).findFirst[it.name === e.name]
-										rulePlanner.planner = dslPlanner
-										rulePlanner.executor = dslExecutor
-										rulePlanner.access = "must-use"
+										rulePlanner.planner = EcoreUtil2.getAllContentsOfType(architecture,DSLPlanner).findFirst[it.name === p.name]
+										rulePlanner.executor = EcoreUtil2.getAllContentsOfType(architecture,DSLExecutor).findFirst[it.name === e.name]
+										rulePlanner.access = "must-use|domain"
 										withDomainRules.add(rulePlanner)
 									}
 								}
@@ -350,12 +344,10 @@ class SasDslGenerator extends AbstractGenerator {
 								for (m:monitor){
 									for (kn:knowledge)
 									{
-										var ruleMonitor = SasDslFactory.eINSTANCE.createDSLRuleMonitor
-										var dslMonitor = EcoreUtil2.getAllContentsOfType(architecture,DSLMonitor).findFirst[it.name === m.name]
-										var dslKnowledge = EcoreUtil2.getAllContentsOfType(architecture,DSLKnowledge).findFirst[it.name === kn.name]
-										ruleMonitor.monitor = dslMonitor
-										ruleMonitor.knowledge = dslKnowledge
-										ruleMonitor.access = "must-use"
+										var ruleMonitor = SasDslFactory.eINSTANCE.createDSLRuleMonitor 
+										ruleMonitor.monitor = EcoreUtil2.getAllContentsOfType(architecture,DSLMonitor).findFirst[it.name === m.name]
+										ruleMonitor.knowledge = EcoreUtil2.getAllContentsOfType(architecture,DSLKnowledge).findFirst[it.name === kn.name]
+										ruleMonitor.access = "must-use|domain"
 										withDomainRules.add(ruleMonitor)
 									}
 								}
@@ -377,11 +369,9 @@ class SasDslGenerator extends AbstractGenerator {
 								for (kn:knowledge)
 								{
 									var ruleAnalyzer = SasDslFactory.eINSTANCE.createDSLRuleAnalyzer
-									var dslAnalyzer = EcoreUtil2.getAllContentsOfType(architecture,DSLAnalyzer).findFirst[it.name === a.name]
-									var dslKnowledge = EcoreUtil2.getAllContentsOfType(architecture,DSLKnowledge).findFirst[it.name === kn.name]
-									ruleAnalyzer.analyzer = dslAnalyzer
-									ruleAnalyzer.knowledge = dslKnowledge
-									ruleAnalyzer.access = "must-use"
+									ruleAnalyzer.analyzer = EcoreUtil2.getAllContentsOfType(architecture,DSLAnalyzer).findFirst[it.name === a.name]
+									ruleAnalyzer.knowledge = EcoreUtil2.getAllContentsOfType(architecture,DSLKnowledge).findFirst[it.name === kn.name]
+									ruleAnalyzer.access = "must-use|domain"
 									withDomainRules.add(ruleAnalyzer)
 								}
 							}
@@ -399,12 +389,10 @@ class SasDslGenerator extends AbstractGenerator {
 								for (p:planner){
 									for (kn:knowledge)
 									{
-										var rulePlanner = SasDslFactory.eINSTANCE.createDSLRulePlanner
-										var dslPlanner = EcoreUtil2.getAllContentsOfType(architecture,DSLPlanner).findFirst[it.name === p.name]
-										var dslKnowledge = EcoreUtil2.getAllContentsOfType(architecture,DSLKnowledge).findFirst[it.name === kn.name]
-										rulePlanner.planner = dslPlanner
-										rulePlanner.knowledge = dslKnowledge
-										rulePlanner.access = "must-use"
+										var rulePlanner = SasDslFactory.eINSTANCE.createDSLRulePlanner										 
+										rulePlanner.planner = EcoreUtil2.getAllContentsOfType(architecture,DSLPlanner).findFirst[it.name === p.name]
+										rulePlanner.knowledge = EcoreUtil2.getAllContentsOfType(architecture,DSLKnowledge).findFirst[it.name === kn.name]
+										rulePlanner.access = "must-use|domain"
 										withDomainRules.add(rulePlanner)
 									}
 								}
@@ -428,11 +416,9 @@ class SasDslGenerator extends AbstractGenerator {
 									for (kn:knowledge)
 									{
 										var ruleExecutor = SasDslFactory.eINSTANCE.createDSLRuleExecutor
-										var dslExecutor = EcoreUtil2.getAllContentsOfType(architecture,DSLExecutor).findFirst[it.name === e.name]
-										var dslKnowledge = EcoreUtil2.getAllContentsOfType(architecture,DSLKnowledge).findFirst[it.name === kn.name]
-										ruleExecutor.executor = dslExecutor
-										ruleExecutor.knowledge = dslKnowledge
-										ruleExecutor.access = "must-use"
+										ruleExecutor.executor = EcoreUtil2.getAllContentsOfType(architecture,DSLExecutor).findFirst[it.name === e.name]
+										ruleExecutor.knowledge = EcoreUtil2.getAllContentsOfType(architecture,DSLKnowledge).findFirst[it.name === kn.name]
+										ruleExecutor.access = "must-use|domain"
 										withDomainRules.add(ruleExecutor)
 									}
 								}
@@ -570,12 +556,10 @@ class SasDslGenerator extends AbstractGenerator {
 								for (m:monitor){
 									for (a:analyzer)
 									{
-										var ruleMonitor = SasDslFactory.eINSTANCE.createDSLRuleMonitor
-										var dslMonitor = EcoreUtil2.getAllContentsOfType(architecture,DSLMonitor).findFirst[it.name === m.name]
-										var dslAnalyzer = EcoreUtil2.getAllContentsOfType(architecture,DSLAnalyzer).findFirst[it.name === a.name]
-										ruleMonitor.monitor = dslMonitor
-										ruleMonitor.analyzer = dslAnalyzer
-										ruleMonitor.access = "must-use"
+										var ruleMonitor = SasDslFactory.eINSTANCE.createDSLRuleMonitor				
+										ruleMonitor.monitor = EcoreUtil2.getAllContentsOfType(architecture,DSLMonitor).findFirst[it.name === m.name]
+										ruleMonitor.analyzer = EcoreUtil2.getAllContentsOfType(architecture,DSLAnalyzer).findFirst[it.name === a.name]
+										ruleMonitor.access = "must-use|domain"
 										withDomainRules.add(ruleMonitor)
 									}
 								}
@@ -598,11 +582,9 @@ class SasDslGenerator extends AbstractGenerator {
 									for (p:planner)
 									{
 										var ruleAnalyzer = SasDslFactory.eINSTANCE.createDSLRuleAnalyzer
-										var dslAnalyzer = EcoreUtil2.getAllContentsOfType(architecture,DSLAnalyzer).findFirst[it.name === a.name]
-										var dslPlanner = EcoreUtil2.getAllContentsOfType(architecture,DSLPlanner).findFirst[it.name === p.name]
-										ruleAnalyzer.analyzer = dslAnalyzer
-										ruleAnalyzer.planner = dslPlanner
-										ruleAnalyzer.access = "must-use"
+										ruleAnalyzer.analyzer = EcoreUtil2.getAllContentsOfType(architecture,DSLAnalyzer).findFirst[it.name === a.name]
+										ruleAnalyzer.planner = EcoreUtil2.getAllContentsOfType(architecture,DSLPlanner).findFirst[it.name === p.name]
+										ruleAnalyzer.access = "must-use|domain"
 										withDomainRules.add(ruleAnalyzer)
 									}
 								}
@@ -624,12 +606,10 @@ class SasDslGenerator extends AbstractGenerator {
 								for (p:planner){
 									for (e:executor)
 									{
-										var rulePlanner = SasDslFactory.eINSTANCE.createDSLRulePlanner
-										var dslPlanner = EcoreUtil2.getAllContentsOfType(architecture,DSLPlanner).findFirst[it.name === p.name]
-										var dslExecutor = EcoreUtil2.getAllContentsOfType(architecture,DSLExecutor).findFirst[it.name === e.name]
-										rulePlanner.planner = dslPlanner
-										rulePlanner.executor = dslExecutor
-										rulePlanner.access = "must-use"
+										var rulePlanner = SasDslFactory.eINSTANCE.createDSLRulePlanner			
+										rulePlanner.planner = EcoreUtil2.getAllContentsOfType(architecture,DSLPlanner).findFirst[it.name === p.name]
+										rulePlanner.executor = EcoreUtil2.getAllContentsOfType(architecture,DSLExecutor).findFirst[it.name === e.name]
+										rulePlanner.access = "must-use|domain"
 										withDomainRules.add(rulePlanner)
 									}
 								}
@@ -653,11 +633,9 @@ class SasDslGenerator extends AbstractGenerator {
 									for (kn:knowledge)
 									{
 										var ruleMonitor = SasDslFactory.eINSTANCE.createDSLRuleMonitor
-										var dslMonitor = EcoreUtil2.getAllContentsOfType(architecture,DSLMonitor).findFirst[it.name === m.name]
-										var dslKnowledge = EcoreUtil2.getAllContentsOfType(architecture,DSLKnowledge).findFirst[it.name === kn.name]
-										ruleMonitor.monitor = dslMonitor
-										ruleMonitor.knowledge = dslKnowledge
-										ruleMonitor.access = "must-use"
+										ruleMonitor.monitor = EcoreUtil2.getAllContentsOfType(architecture,DSLMonitor).findFirst[it.name === m.name]
+										ruleMonitor.knowledge = EcoreUtil2.getAllContentsOfType(architecture,DSLKnowledge).findFirst[it.name === kn.name]
+										ruleMonitor.access = "must-use|domain"
 										withDomainRules.add(ruleMonitor)
 									}
 								}
@@ -680,12 +658,10 @@ class SasDslGenerator extends AbstractGenerator {
 								for (a:analyzer){
 									for (kn:knowledge)
 									{
-										var ruleAnalyzer = SasDslFactory.eINSTANCE.createDSLRuleAnalyzer
-										var dslAnalyzer = EcoreUtil2.getAllContentsOfType(architecture,DSLAnalyzer).findFirst[it.name === a.name]
-										var dslKnowledge = EcoreUtil2.getAllContentsOfType(architecture,DSLKnowledge).findFirst[it.name === kn.name]
-										ruleAnalyzer.analyzer = dslAnalyzer
-										ruleAnalyzer.knowledge = dslKnowledge
-										ruleAnalyzer.access = "must-use"
+										var ruleAnalyzer = SasDslFactory.eINSTANCE.createDSLRuleAnalyzer 
+										ruleAnalyzer.analyzer = EcoreUtil2.getAllContentsOfType(architecture,DSLAnalyzer).findFirst[it.name === a.name]
+										ruleAnalyzer.knowledge = EcoreUtil2.getAllContentsOfType(architecture,DSLKnowledge).findFirst[it.name === kn.name]
+										ruleAnalyzer.access = "must-use|domain"
 										withDomainRules.add(ruleAnalyzer)
 									}
 								}
@@ -707,11 +683,9 @@ class SasDslGenerator extends AbstractGenerator {
 									for (kn:knowledge)
 									{
 										var rulePlanner = SasDslFactory.eINSTANCE.createDSLRulePlanner
-										var dslPlanner = EcoreUtil2.getAllContentsOfType(architecture,DSLPlanner).findFirst[it.name === p.name]
-										var dslKnowledge = EcoreUtil2.getAllContentsOfType(architecture,DSLKnowledge).findFirst[it.name === kn.name]
-										rulePlanner.planner = dslPlanner
-										rulePlanner.knowledge = dslKnowledge
-										rulePlanner.access = "must-use"
+										rulePlanner.planner = EcoreUtil2.getAllContentsOfType(architecture,DSLPlanner).findFirst[it.name === p.name]
+										rulePlanner.knowledge = EcoreUtil2.getAllContentsOfType(architecture,DSLKnowledge).findFirst[it.name === kn.name]
+										rulePlanner.access = "must-use|domain"
 										withDomainRules.add(rulePlanner)
 									}
 								}
@@ -734,12 +708,10 @@ class SasDslGenerator extends AbstractGenerator {
 								for (e:executor){
 									for (kn:knowledge)
 									{
-										var ruleExecutor = SasDslFactory.eINSTANCE.createDSLRuleExecutor
-										var dslExecutor = EcoreUtil2.getAllContentsOfType(architecture,DSLExecutor).findFirst[it.name === e.name]
-										var dslKnowledge = EcoreUtil2.getAllContentsOfType(architecture,DSLKnowledge).findFirst[it.name === kn.name]
-										ruleExecutor.executor = dslExecutor
-										ruleExecutor.knowledge = dslKnowledge
-										ruleExecutor.access = "must-use"
+										var ruleExecutor = SasDslFactory.eINSTANCE.createDSLRuleExecutor										
+										ruleExecutor.executor = EcoreUtil2.getAllContentsOfType(architecture,DSLExecutor).findFirst[it.name === e.name]
+										ruleExecutor.knowledge = EcoreUtil2.getAllContentsOfType(architecture,DSLKnowledge).findFirst[it.name === kn.name]
+										ruleExecutor.access = "must-use|domain"
 										withDomainRules.add(ruleExecutor)
 									}
 								}
@@ -2194,97 +2166,84 @@ class SasDslGenerator extends AbstractGenerator {
 	
 		«FOR DSLManaging managing : lManaging»
 		context StructureModel
-		inv exist_«managing.name»: Subsystem.allInstances()->exists(c| c.name='«managing.name»' and c.stereotype->asSequence()->first().name = 'Managing Subsystem')
+		inv existT«managing.name»: Subsystem.allInstances()->exists(c| c.name='«managing.name»' and c.stereotype->asSequence()->first().name = 'Managing Subsystem')
 		
 		«ENDFOR»	
 		«FOR DSLManaged managed : lManaged»
 		context StructureModel
-		inv exist_«managed.name»: Subsystem.allInstances()->exists(c| c.name='«managed.name»' and c.stereotype->asSequence()->first().name = 'Managed Subsystem')
+		inv existT«managed.name»: Subsystem.allInstances()->exists(c| c.name='«managed.name»' and c.stereotype->asSequence()->first().name = 'Managed Subsystem')
 		
 		«ENDFOR»	
 		«FOR DSLManagerController mcontroller : lMController»
 		context StructureModel
-		inv exist_«mcontroller.name»: Component.allInstances()->exists(c| c.name='«mcontroller.name»' and c.stereotype->asSequence()->first().name = 'Loop Manager')
+		inv existT«mcontroller.name»: Component.allInstances()->exists(c| c.name='«mcontroller.name»' and c.stereotype->asSequence()->first().name = 'Loop Manager')
 		
 		«ENDFOR»	
 		«FOR DSLController controller : lController»
 		context StructureModel
-		inv exist_«controller.name»: Component.allInstances()->exists(c| c.name='«controller.name»' and c.stereotype->asSequence()->first().name = 'Loop')
+		inv existT«controller.name»: Component.allInstances()->exists(c| c.name='«controller.name»' and c.stereotype->asSequence()->first().name = 'Loop')
 		
 		«ENDFOR»	
 		«FOR DSLMonitor monitor : lMonitor»
 		context StructureModel
-		inv exist_«monitor.name»: Component.allInstances()->exists(c| c.name='«monitor.name»' and c.stereotype->asSequence()->first().name = 'Monitor')
+		inv existT«monitor.name»: Component.allInstances()->exists(c| c.name='«monitor.name»' and c.stereotype->asSequence()->first().name = 'Monitor')
 		
 		«ENDFOR»	
 		«FOR DSLAnalyzer analyzer : lAnalyzer»
 		context StructureModel
-		inv exist_«analyzer.name»: Component.allInstances()->exists(c| c.name='«analyzer.name»' and c.stereotype->asSequence()->first().name = 'Analyzer')
+		inv existT«analyzer.name»: Component.allInstances()->exists(c| c.name='«analyzer.name»' and c.stereotype->asSequence()->first().name = 'Analyzer')
 		
 		«ENDFOR»	
 		«FOR DSLPlanner planner : lPlanner»
 		context StructureModel
-		inv exist_«planner.name»: Component.allInstances()->exists(c| c.name='«planner.name»' and c.stereotype->asSequence()->first().name = 'Planner')
+		inv existT«planner.name»: Component.allInstances()->exists(c| c.name='«planner.name»' and c.stereotype->asSequence()->first().name = 'Planner')
 		
 		«ENDFOR»	
 		«FOR DSLExecutor executor : lExecutor»
 		context StructureModel
-		inv exist_«executor.name»: Component.allInstances()->exists(c| c.name='«executor.name»' and c.stereotype->asSequence()->first().name = 'Executor')
+		inv existT«executor.name»: Component.allInstances()->exists(c| c.name='«executor.name»' and c.stereotype->asSequence()->first().name = 'Executor')
 		
 		«ENDFOR»	
 		«FOR DSLKnowledge knowledge : lKnowledge»
 		context StructureModel
-		inv exist_«knowledge.name»: Component.allInstances()->exists(c| c.name='«knowledge.name»' and c.stereotype->asSequence()->first().name = 'Knowledge')
+		inv existT«knowledge.name»: Component.allInstances()->exists(c| c.name='«knowledge.name»' and c.stereotype->asSequence()->first().name = 'Knowledge')
 		
 		«ENDFOR»	
 		«FOR DSLEffector effector : lEffector»
 		context StructureModel
-		inv exist_«effector.name»: Component.allInstances()->exists(c| c.name='«effector.name»' and c.stereotype->asSequence()->first().name = 'Effector')
+		inv existT«effector.name»: Component.allInstances()->exists(c| c.name='«effector.name»' and c.stereotype->asSequence()->first().name = 'Effector')
 		
 		«ENDFOR»	
 		«FOR DSLSensor sensor : lSensor»
 		context StructureModel
-		inv exist_«sensor.name»: Component.allInstances()->exists(c| c.name='«sensor.name»' and c.stereotype->asSequence()->first().name = 'Sensor')
+		inv existT«sensor.name»: Component.allInstances()->exists(c| c.name='«sensor.name»' and c.stereotype->asSequence()->first().name = 'Sensor')
 		
 		«ENDFOR»	
 		«FOR DSLMeasuredOutput mesOutput : lMOutput»
 		context StructureModel
-		inv exist_«mesOutput.name»: Component.allInstances()->exists(c| c.name='«mesOutput.name»' and c.stereotype->asSequence()->first().name = 'Measured Output')
+		inv existT«mesOutput.name»: Component.allInstances()->exists(c| c.name='«mesOutput.name»' and c.stereotype->asSequence()->first().name = 'Measured Output')
 		
 		«ENDFOR»	
 		«FOR DSLReferenceInput refInput : lRInput»
 		context StructureModel
-		inv exist_«refInput.name»: Component.allInstances()->exists(c| c.name='«refInput.name»' and c.stereotype->asSequence()->first().name = 'Reference Input')
+		inv existT«refInput.name»: Component.allInstances()->exists(c| c.name='«refInput.name»' and c.stereotype->asSequence()->first().name = 'Reference Input')
 		
 		«ENDFOR»	
 		«FOR DSLAlternative shalt : lAlternative»
 		context StructureModel
-		inv exist_«shalt.name»: Component.allInstances()->exists(c| c.name='«shalt.name»' and c.stereotype->asSequence()->first().name = 'Alternative')
+		inv existT«shalt.name»: Component.allInstances()->exists(c| c.name='«shalt.name»' and c.stereotype->asSequence()->first().name = 'Alternative')
 		
 		«ENDFOR»	
 	--------------------------------------------------------
 	-- Check compositions of adaptive system abstractions --
 	--------------------------------------------------------
 	
-		«FOR DSLManaging managing : lManaging»
-		«IF managing.eContainer instanceof ArchitectureDefinition»
-		context StructureModel
-		inv composite_«managing.name»: Subsystem.allInstances()->select(c| c.name='«managing.name»' and c.stereotype->asSequence()->first().name = 'Managing Subsystem') -> exists(d|d.oclContainer().oclIsTypeOf(StructureModel))
-		«ENDIF»
-		«ENDFOR»	
-		
-		«FOR DSLManaged managed : lManaged»
-		«IF managed.eContainer instanceof ArchitectureDefinition»
-		context StructureModel
-		inv composite_«managed.name»: Subsystem.allInstances()->select(c| c.name='«managed.name»' and c.stereotype->asSequence()->first().name = 'Managed Subsystem') -> exists(d|d.oclContainer().oclIsTypeOf(StructureModel))
-		«ENDIF»
-		«ENDFOR»	
 		
 		«FOR DSLManagerController mcontroller : lMController»
 		«IF mcontroller.eContainer instanceof DSLManaging»
 		«var managing = mcontroller.eContainer as DSLManaging»
 		context StructureModel
-		inv composite_«mcontroller.name»: Component.allInstances()->select(c| c.name='«mcontroller.name»' and c.stereotype->asSequence()->first().name = 'Loop Manager')->
+		inv compositeT«mcontroller.name»T«managing.name»: Component.allInstances()->select(c| c.name='«mcontroller.name»' and c.stereotype->asSequence()->first().name = 'Loop Manager')->
 										  exists(d|d.oclContainer().oclAsType(Subsystem).name='«managing.name»' and d.oclContainer().oclAsType(Subsystem).stereotype->asSequence()->first().name = 'Managing Subsystem')
 		«ENDIF»
 		«ENDFOR»
@@ -2293,12 +2252,12 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF controller.eContainer instanceof DSLManaging»
 		«var managing = controller.eContainer as DSLManaging»
 		context StructureModel
-		inv composite_«controller.name»: Component.allInstances()->select(c| c.name='«controller.name»' and c.stereotype->asSequence()->first().name = 'Loop Manager')->
+		inv compositeT«controller.name»T«managing.name»: Component.allInstances()->select(c| c.name='«controller.name»' and c.stereotype->asSequence()->first().name = 'Loop Manager')->
 										 exists(d|d.oclContainer().oclAsType(Subsystem).name='«managing.name»' and d.oclContainer().oclAsType(Subsystem).stereotype->asSequence()->first().name = 'Managing Subsystem')
 		«ELSEIF controller.eContainer instanceof DSLManagerController»
 		«var mcontroller = controller.eContainer as DSLManagerController»
 		context StructureModel
-		inv composite_«controller.name»: Component.allInstances()->select(c| c.name='«controller.name»' and c.stereotype->asSequence()->first().name = 'Loop Manager')->
+		inv compositeT«controller.name»T«mcontroller.name»: Component.allInstances()->select(c| c.name='«controller.name»' and c.stereotype->asSequence()->first().name = 'Loop Manager')->
 												 exists(d|d.oclContainer().oclAsType(Subsystem).name='«mcontroller.name»' and d.oclContainer().oclAsType(Component).stereotype->asSequence()->first().name = 'Loop Manager')
 		«ENDIF»
 		«ENDFOR»	
@@ -2307,7 +2266,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF monitor.eContainer instanceof DSLController»
 		«var controller = monitor.eContainer as DSLController»
 		context StructureModel
-		inv composite_«monitor.name»: Component.allInstances()->select(c| c.name='«monitor.name»' and c.stereotype->asSequence()->first().name = 'Monitor')->
+		inv compositeT«monitor.name»T«controller.name»: Component.allInstances()->select(c| c.name='«monitor.name»' and c.stereotype->asSequence()->first().name = 'Monitor')->
 									  exists(d|d.oclContainer().oclAsType(Component).name='«controller.name»' and d.oclContainer().oclAsType(Component).stereotype->asSequence()->first().name = 'Loop')
 		«ENDIF»
 		«ENDFOR»
@@ -2316,7 +2275,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF analyzer.eContainer instanceof DSLController»
 		«var controller = analyzer.eContainer as DSLController»
 		context StructureModel
-		inv composite_«analyzer.name»: Component.allInstances()->select(c| c.name='«analyzer.name»' and c.stereotype->asSequence()->first().name = 'Analyzer')->
+		inv compositeT«analyzer.name»T«controller.name»: Component.allInstances()->select(c| c.name='«analyzer.name»' and c.stereotype->asSequence()->first().name = 'Analyzer')->
 									  exists(d|d.oclContainer().oclAsType(Component).name='«controller.name»' and d.oclContainer().oclAsType(Component).stereotype->asSequence()->first().name = 'Loop')
 		«ENDIF»
 		«ENDFOR»
@@ -2325,7 +2284,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF planner.eContainer instanceof DSLController»
 		«var controller = planner.eContainer as DSLController»
 		context StructureModel
-		inv composite_«planner.name»: Component.allInstances()->select(c| c.name='«planner.name»' and c.stereotype->asSequence()->first().name = 'Planner')->
+		inv compositeT«planner.name»T«controller.name»: Component.allInstances()->select(c| c.name='«planner.name»' and c.stereotype->asSequence()->first().name = 'Planner')->
 									  exists(d|d.oclContainer().oclAsType(Component).name='«controller.name»' and d.oclContainer().oclAsType(Component).stereotype->asSequence()->first().name = 'Loop')
 		«ENDIF»
 		«ENDFOR»	
@@ -2334,7 +2293,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF executor.eContainer instanceof DSLController»
 		«var controller = executor.eContainer as DSLController»
 		context StructureModel
-		inv composite_«executor.name»: Component.allInstances()->select(c| c.name='«executor.name»' and c.stereotype->asSequence()->first().name = 'Executor')->
+		inv compositeT«executor.name»T«controller.name»: Component.allInstances()->select(c| c.name='«executor.name»' and c.stereotype->asSequence()->first().name = 'Executor')->
 									  exists(d|d.oclContainer().oclAsType(Component).name='«controller.name»' and d.oclContainer().oclAsType(Component).stereotype->asSequence()->first().name = 'Loop')
 		«ENDIF»
 		«ENDFOR»	
@@ -2343,7 +2302,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF knowledge.eContainer instanceof DSLController»
 		«var controller = knowledge.eContainer as DSLController»
 		context StructureModel
-		inv composite_«knowledge.name»: Component.allInstances()->select(c| c.name='«knowledge.name»' and c.stereotype->asSequence()->first().name = 'Knowledge')->
+		inv compositeT«knowledge.name»T«controller.name»: Component.allInstances()->select(c| c.name='«knowledge.name»' and c.stereotype->asSequence()->first().name = 'Knowledge')->
 									  exists(d|d.oclContainer().oclAsType(Component).name='«controller.name»' and d.oclContainer().oclAsType(Component).stereotype->asSequence()->first().name = 'Loop')
 		«ENDIF»
 		«ENDFOR»	
@@ -2352,7 +2311,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF effector.eContainer instanceof DSLManaged»
 		«var managed = effector.eContainer as DSLManaged»
 		context StructureModel
-		inv composite_«effector.name»: Component.allInstances()->select(c| c.name='«effector.name»' and c.stereotype->asSequence()->first().name = 'Effector')->
+		inv compositeT«effector.name»T«managed.name»: Component.allInstances()->select(c| c.name='«effector.name»' and c.stereotype->asSequence()->first().name = 'Effector')->
 									   exists(d|d.oclContainer().oclAsType(Subsystem).name='«managed.name»' and d.oclContainer().oclAsType(Subsystem).stereotype->asSequence()->first().name = 'Managed Subsystem')
 		«ENDIF»
 		«ENDFOR»	
@@ -2361,7 +2320,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF sensor.eContainer instanceof DSLManaged»
 		«var managed = sensor.eContainer as DSLManaged»
 		context StructureModel
-		inv composite_«sensor.name»: Component.allInstances()->select(c| c.name='«sensor.name»' and c.stereotype->asSequence()->first().name = 'Sensor')->
+		inv compositeT«sensor.name»T«managed.name»: Component.allInstances()->select(c| c.name='«sensor.name»' and c.stereotype->asSequence()->first().name = 'Sensor')->
 									   exists(d|d.oclContainer().oclAsType(Subsystem).name='«managed.name»' and d.oclContainer().oclAsType(Subsystem).stereotype->asSequence()->first().name = 'Managed Subsystem')
 		«ENDIF»
 		«ENDFOR»
@@ -2370,7 +2329,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF mesOutput.eContainer instanceof DSLManaged»
 		«var managed = mesOutput.eContainer as DSLManaged»
 		context StructureModel
-		inv composite_«mesOutput.name»: Component.allInstances()->select(c| c.name='«mesOutput.name»' and c.stereotype->asSequence()->first().name = 'Measured Output')->
+		inv compositeT«mesOutput.name»T«managed.name»: Component.allInstances()->select(c| c.name='«mesOutput.name»' and c.stereotype->asSequence()->first().name = 'Measured Output')->
 								     exists(d|d.oclContainer().oclAsType(Subsystem).name='«managed.name»' and d.oclContainer().oclAsType(Subsystem).stereotype->asSequence()->first().name = 'Managed Subsystem')
 		«ENDIF»
 		«ENDFOR»	
@@ -2379,7 +2338,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF refInput.eContainer instanceof DSLKnowledge»
 		«var knowledge = refInput.eContainer as DSLKnowledge»
 		context StructureModel
-		inv composite_«refInput.name»: Component.allInstances()->select(c| c.name='«refInput.name»' and c.stereotype->asSequence()->first().name = 'Reference Input')->
+		inv compositeT«refInput.name»T«knowledge.name»: Component.allInstances()->select(c| c.name='«refInput.name»' and c.stereotype->asSequence()->first().name = 'Reference Input')->
 									    exists(d|d.oclContainer().oclAsType(Component).name='«knowledge.name»' and d.oclContainer().oclAsType(Component).stereotype->asSequence()->first().name = 'Knowledge')
 		«ENDIF»
 		«ENDFOR»
@@ -2388,7 +2347,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF shalt.eContainer instanceof DSLKnowledge»
 		«var knowledge = shalt.eContainer as DSLKnowledge»
 		context StructureModel
-		inv composite_«shalt.name»: Component.allInstances()->select(c| c.name='«shalt.name»' and c.stereotype->asSequence()->first().name = 'Alternative')->
+		inv compositeT«shalt.name»T«knowledge.name»: Component.allInstances()->select(c| c.name='«shalt.name»' and c.stereotype->asSequence()->first().name = 'Alternative')->
 									    exists(d|d.oclContainer().oclAsType(Component).name='«knowledge.name»' and d.oclContainer().oclAsType(Component).stereotype->asSequence()->first().name = 'Knowledge')
 		«ENDIF»
 		«ENDFOR»	
@@ -2406,11 +2365,11 @@ class SasDslGenerator extends AbstractGenerator {
 		«var secondArgument = dslRuleMController.mcontroller2»
 		«IF dslRule.access.equals("must-use")»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ENDIF»
 		«ENDIF»
@@ -2421,11 +2380,11 @@ class SasDslGenerator extends AbstractGenerator {
 		«var secondArgument = dslRuleController.controller2»
 		«IF dslRule.access.equals("must-use")»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2436,7 +2395,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«var secondArgument = dslRuleMonitor.analyzer»
 		«IF dslRule.access.equals("must-use")»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		«var dslDomain = dslRuleMonitor.monitor.eContainer.eContents.filter(DSLDomainRule).toList»
@@ -2444,7 +2403,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«var add = lDomainMonitorAnalyzer.add(dslRuleMonitor.analyzer)»
 		«ENDIF»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2453,7 +2412,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«var secondArgument = dslRuleMonitor.knowledge»
 		«IF dslRule.access.equals("must-use")»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		«var dslDomain = dslRuleMonitor.monitor.eContainer.eContents.filter(DSLDomainRule).toList»
@@ -2461,7 +2420,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«var add = lDomainMonitorKnowledge.add(dslRuleMonitor.knowledge)»
 		«ENDIF»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2474,11 +2433,11 @@ class SasDslGenerator extends AbstractGenerator {
 		«var add = lDomainMonitorPlanner.add(dslRuleMonitor.planner)»
 		«ENDIF»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2491,11 +2450,11 @@ class SasDslGenerator extends AbstractGenerator {
 		«var add = lDomainMonitorExecutor.add(dslRuleMonitor.executor)»
 		«ENDIF»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2504,11 +2463,11 @@ class SasDslGenerator extends AbstractGenerator {
 		«var secondArgument = dslRuleMonitor.monitor2»
 		«IF dslRule.access.equals("must-use")»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2517,11 +2476,11 @@ class SasDslGenerator extends AbstractGenerator {
 		«var secondArgument = dslRuleMonitor.sensor»
 		«IF dslRule.access.equals("must-use")»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2536,11 +2495,11 @@ class SasDslGenerator extends AbstractGenerator {
 		«var add = lDomainAnalyzerMonitor.add(dslRuleAnalyzer.monitor)»
 		«ENDIF»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2549,7 +2508,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«var secondArgument = dslRuleAnalyzer.knowledge»
 		«IF dslRule.access.equals("must-use")»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		«var dslDomain = dslRuleAnalyzer.analyzer.eContainer.eContents.filter(DSLDomainRule).toList»
@@ -2557,7 +2516,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«var add = lDomainAnalyzerKnowledge.add(dslRuleAnalyzer.knowledge)»
 		«ENDIF»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2566,11 +2525,11 @@ class SasDslGenerator extends AbstractGenerator {
 		«var secondArgument = dslRuleAnalyzer.rreference»
 		«IF dslRule.access.equals("must-use")»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2579,7 +2538,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«var secondArgument = dslRuleAnalyzer.planner»
 		«IF dslRule.access.equals("must-use")»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		«var dslDomain = dslRuleAnalyzer.analyzer.eContainer.eContents.filter(DSLDomainRule).toList»
@@ -2587,7 +2546,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«var add = lDomainAnalyzerPlanner.add(dslRuleAnalyzer.planner)»
 		«ENDIF»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2596,11 +2555,11 @@ class SasDslGenerator extends AbstractGenerator {
 		«var secondArgument = dslRuleAnalyzer.analyzer2»
 		«IF dslRule.access.equals("must-use")»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2609,11 +2568,11 @@ class SasDslGenerator extends AbstractGenerator {
 		«var secondArgument = dslRuleAnalyzer.shalt»
 		«IF dslRule.access.equals("must-use")»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2626,11 +2585,11 @@ class SasDslGenerator extends AbstractGenerator {
 		«var add = lDomainAnalyzerExecutor.add(dslRuleAnalyzer.executor)»
 		«ENDIF»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2645,11 +2604,11 @@ class SasDslGenerator extends AbstractGenerator {
 		«var add = lDomainPlannerAnalyzer.add(dslRulePlanner.analyzer)»
 		«ENDIF»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2658,11 +2617,11 @@ class SasDslGenerator extends AbstractGenerator {
 		«var secondArgument = dslRulePlanner.planner2»
 		«IF dslRule.access.equals("must-use")»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2675,11 +2634,11 @@ class SasDslGenerator extends AbstractGenerator {
 		«var add = lDomainPlannerMonitor.add(dslRulePlanner.monitor)»
 		«ENDIF»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2688,11 +2647,11 @@ class SasDslGenerator extends AbstractGenerator {
 		«var secondArgument = dslRulePlanner.shalt»
 		«IF dslRule.access.equals("must-use")»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2701,7 +2660,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«var secondArgument = dslRulePlanner.executor»
 		«IF dslRule.access.equals("must-use")»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		«var dslDomain = dslRulePlanner.planner.eContainer.eContents.filter(DSLDomainRule).toList»
@@ -2709,7 +2668,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«var add = lDomainPlannerExecutor.add(dslRulePlanner.executor)»
 		«ENDIF»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2718,7 +2677,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«var secondArgument = dslRulePlanner.knowledge»
 		«IF dslRule.access.equals("must-use")»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		«var dslDomain = dslRulePlanner.planner.eContainer.eContents.filter(DSLDomainRule).toList»
@@ -2726,7 +2685,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«var add = lDomainPlannerKnowledge.add(dslRulePlanner.knowledge)»
 		«ENDIF»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2737,7 +2696,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«var secondArgument = dslRuleExecutor.knowledge»
 		«IF dslRule.access.equals("must-use")»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		«var dslDomain = dslRuleExecutor.executor.eContainer.eContents.filter(DSLDomainRule).toList»
@@ -2745,7 +2704,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«var add = lDomainExecutorKnowledge.add(dslRuleExecutor.knowledge)»
 		«ENDIF»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2758,11 +2717,11 @@ class SasDslGenerator extends AbstractGenerator {
 		«var add = lDomainExecutorPlanner.add(dslRuleExecutor.planner)»
 		«ENDIF»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2775,11 +2734,11 @@ class SasDslGenerator extends AbstractGenerator {
 		«var add = lDomainExecutorMonitor.add(dslRuleExecutor.monitor)»
 		«ENDIF»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2792,11 +2751,11 @@ class SasDslGenerator extends AbstractGenerator {
 		«var add = lDomainExecutorAnalyzer.add(dslRuleExecutor.analyzer)»
 		«ENDIF»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2805,11 +2764,11 @@ class SasDslGenerator extends AbstractGenerator {
 		«var secondArgument = dslRuleExecutor.effector»
 		«IF dslRule.access.equals("must-use")»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2818,11 +2777,11 @@ class SasDslGenerator extends AbstractGenerator {
 		«var secondArgument = dslRuleExecutor.executor2»
 		«IF dslRule.access.equals("must-use")»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2833,11 +2792,11 @@ class SasDslGenerator extends AbstractGenerator {
 		«var secondArgument = dslRuleSensor.measured»
 		«IF dslRule.access.equals("must-use")»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2852,11 +2811,11 @@ class SasDslGenerator extends AbstractGenerator {
 		«var add = lDomainKnowledgeMonitor.add(dslRuleKnowledge.monitor)»
 		«ENDIF»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2869,11 +2828,11 @@ class SasDslGenerator extends AbstractGenerator {
 		«var add = lDomainKnowledgeAnalyzer.add(dslRuleKnowledge.analyzer)»
 		«ENDIF»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2886,11 +2845,11 @@ class SasDslGenerator extends AbstractGenerator {
 		«var add = lDomainKnowledgePlanner.add(dslRuleKnowledge.planner)»
 		«ENDIF»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2903,11 +2862,11 @@ class SasDslGenerator extends AbstractGenerator {
 		«var add = lDomainKnowledgeExecutor.add(dslRuleKnowledge.executor)»
 		«ENDIF»
 		context StructureModel
-		inv access_«firstArgument.name»_«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
+		inv accessT«firstArgument.name»T«secondArgument.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»') 
 		
 		«ELSEIF dslRule.access.equals("must-not-use")»
 		context StructureModel
-		inv not_access_«firstArgument.name»_«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
+		inv notTaccessT«firstArgument.name»T«secondArgument.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«firstArgument.name»' and c.to.name='«secondArgument.name»')
 		
 		«ENDIF»
 		«ENDIF»
@@ -2926,7 +2885,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF rule.equals("true")»
 		«FOR DSLPlanner dslPlanner: hSPlanner»
 		context StructureModel
-		inv domain_not_access_«dslMonitor.name»_«dslPlanner.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslMonitor.name»' and c.to.name='«dslPlanner.name»')
+		inv domainTnotTaccessT«dslMonitor.name»T«dslPlanner.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslMonitor.name»' and c.to.name='«dslPlanner.name»')
 		
 		«ENDFOR»
 		«ENDIF»
@@ -2940,7 +2899,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF rule.equals("true")»
 		«FOR DSLExecutor dslExecutor: hsExecutor»
 		context StructureModel
-		inv domain_not_access_«dslMonitor.name»_«dslExecutor.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslMonitor.name»' and c.to.name='«dslExecutor.name»')
+		inv domainTnotTaccessT«dslMonitor.name»T«dslExecutor.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslMonitor.name»' and c.to.name='«dslExecutor.name»')
 		
 		«ENDFOR»
 		«ENDIF»
@@ -2954,7 +2913,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF rule.equals("true")»
 		«FOR DSLMonitor dslMonitor: hsMonitor»
 		context StructureModel
-		inv domain_not_access_«dslAnalyzer.name»_«dslMonitor.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslAnalyzer.name»' and c.to.name='«dslMonitor.name»')
+		inv domainTnotTaccessT«dslAnalyzer.name»T«dslMonitor.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslAnalyzer.name»' and c.to.name='«dslMonitor.name»')
 		
 		«ENDFOR»	
 		«ENDIF»		
@@ -2968,7 +2927,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF rule.equals("true")»
 		«FOR DSLExecutor dslExecutor: hsExecutor1»
 		context StructureModel
-		inv domain_not_access_«dslAnalyzer.name»_«dslExecutor.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslAnalyzer.name»' and c.to.name='«dslExecutor.name»')
+		inv domainTnotTaccessT«dslAnalyzer.name»T«dslExecutor.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslAnalyzer.name»' and c.to.name='«dslExecutor.name»')
 		
 		«ENDFOR»
 		«ENDIF»	
@@ -2982,7 +2941,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF rule.equals("true")»
 		«FOR DSLMonitor dslMonitor: hsMonitor1»
 		context StructureModel
-		inv domain_not_access_«dslPlanner.name»_«dslMonitor.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslPlanner.name»' and c.to.name='«dslMonitor.name»')
+		inv domainTnotTaccessT«dslPlanner.name»T«dslMonitor.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslPlanner.name»' and c.to.name='«dslMonitor.name»')
 		
 		«ENDFOR»	
 		«ENDIF»	
@@ -2996,7 +2955,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF rule.equals("true")»
 		«FOR DSLAnalyzer dslANalyzer: hsAnalyzer»
 		context StructureModel
-		inv domain_not_access_«dslPlanner.name»_«dslANalyzer.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslPlanner.name»' and c.to.name='«dslANalyzer.name»')
+		inv domainTnotTaccessT«dslPlanner.name»T«dslANalyzer.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslPlanner.name»' and c.to.name='«dslANalyzer.name»')
 		
 		«ENDFOR»	
 		«ENDIF»		
@@ -3010,7 +2969,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF rule.equals("true")»
 		«FOR DSLMonitor dslMonitor: hsMonitor2»
 		context StructureModel
-		inv domain_not_access_«dslExecutor.name»_«dslMonitor.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslExecutor.name»' and c.to.name='«dslMonitor.name»')
+		inv domainTnotTaccessT«dslExecutor.name»T«dslMonitor.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslExecutor.name»' and c.to.name='«dslMonitor.name»')
 		
 		«ENDFOR»
 		«ENDIF»	
@@ -3024,7 +2983,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF rule.equals("true")»
 		«FOR DSLAnalyzer dslAnalyzer: hsAnalyzer1»
 		context StructureModel
-		inv domain_not_access_«dslExecutor.name»_«dslAnalyzer.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslExecutor.name»' and c.to.name='«dslAnalyzer.name»')
+		inv domainTnotTaccessT«dslExecutor.name»T«dslAnalyzer.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslExecutor.name»' and c.to.name='«dslAnalyzer.name»')
 		
 		«ENDFOR»
 		«ENDIF»	
@@ -3038,7 +2997,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF rule.equals("true")»
 		«FOR DSLPlanner dslPlanner: hSPlanner1»
 		context StructureModel
-		inv domain_not_access_«dslExecutor.name»_«dslPlanner.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslExecutor.name»' and c.to.name='«dslPlanner.name»')
+		inv domainTnotTaccessT«dslExecutor.name»T«dslPlanner.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslExecutor.name»' and c.to.name='«dslPlanner.name»')
 		
 		«ENDFOR»	
 		«ENDIF»		
@@ -3052,7 +3011,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF rule.equals("true")»
 		«FOR DSLMonitor dslMonitor: hsMonitor3»
 		context StructureModel
-		inv domain_not_access_«dslKnowledge.name»_«dslMonitor.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslKnowledge.name»' and c.to.name='«dslMonitor.name»')
+		inv domainTnotTaccessT«dslKnowledge.name»T«dslMonitor.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslKnowledge.name»' and c.to.name='«dslMonitor.name»')
 		
 		«ENDFOR»	
 		«ENDIF»		
@@ -3066,7 +3025,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF rule.equals("true")»
 		«FOR DSLAnalyzer dslAnalyzer: hsAnalyzer2»
 		context StructureModel
-		inv domain_not_access_«dslKnowledge.name»_«dslAnalyzer.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslKnowledge.name»' and c.to.name='«dslAnalyzer.name»')
+		inv domainTnotTaccessT«dslKnowledge.name»T«dslAnalyzer.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslKnowledge.name»' and c.to.name='«dslAnalyzer.name»')
 
 		«ENDFOR»
 		«ENDIF»		
@@ -3080,7 +3039,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF rule.equals("true")»
 		«FOR DSLPlanner dslPlanner: hSPlanner3»
 		context StructureModel
-		inv domain_not_access_«dslKnowledge.name»_«dslPlanner.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslKnowledge.name»' and c.to.name='«dslPlanner.name»')
+		inv domainTnotTaccessT«dslKnowledge.name»T«dslPlanner.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslKnowledge.name»' and c.to.name='«dslPlanner.name»')
 
 		«ENDFOR»
 		«ENDIF»	
@@ -3094,7 +3053,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF rule.equals("true")»
 		«FOR DSLExecutor dslExecutor: hsExecutor2»
 		context StructureModel
-		inv domain_not_access_«dslKnowledge.name»_«dslExecutor.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslKnowledge.name»' and c.to.name='«dslExecutor.name»')
+		inv domainTnotTaccessT«dslKnowledge.name»T«dslExecutor.name»: not AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslKnowledge.name»' and c.to.name='«dslExecutor.name»')
 
 		«ENDFOR»
 		«ENDIF»		
@@ -3108,7 +3067,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF rule.equals("true")»
 		«FOR DSLAnalyzer dslAnalyzer: hsAnalyzer4»
 		context StructureModel
-		inv domain_access_«dslMonitor.name»_«dslAnalyzer.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslMonitor.name»' and c.to.name='«dslAnalyzer.name»') 
+		inv domainTaccessT«dslMonitor.name»T«dslAnalyzer.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslMonitor.name»' and c.to.name='«dslAnalyzer.name»') 
 
 		«ENDFOR»
 		«ENDIF»		
@@ -3122,7 +3081,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF rule.equals("true")»
 		«FOR DSLPlanner dslPlanner: hsPlanner4»
 		context StructureModel
-		inv domain_access_«dslAnalyzer.name»_«dslPlanner.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslAnalyzer.name»' and c.to.name='«dslPlanner.name»') 
+		inv domainTaccessT«dslAnalyzer.name»T«dslPlanner.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslAnalyzer.name»' and c.to.name='«dslPlanner.name»') 
 
 		«ENDFOR»
 		«ENDIF»		
@@ -3136,7 +3095,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF rule.equals("true")»
 		«FOR DSLExecutor dslExecutor: hdExecutor4»
 		context StructureModel
-		inv domain_access_«dslPlanner.name»_«dslExecutor.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslPlanner.name»' and c.to.name='«dslExecutor.name»') 
+		inv domainTaccessT«dslPlanner.name»T«dslExecutor.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslPlanner.name»' and c.to.name='«dslExecutor.name»') 
 
 		«ENDFOR»
 		«ENDIF»	
@@ -3150,7 +3109,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF rule.equals("true")»
 		«FOR DSLKnowledge dslKnowledge: hsKnowledge3»
 		context StructureModel
-		inv domain_access_«dslMonitor.name»_«dslKnowledge.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslMonitor.name»' and c.to.name='«dslKnowledge.name»') 
+		inv domainTaccessT«dslMonitor.name»T«dslKnowledge.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslMonitor.name»' and c.to.name='«dslKnowledge.name»') 
 
 		«ENDFOR»
 		«ENDIF»	
@@ -3164,7 +3123,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF rule.equals("true")»
 		«FOR DSLKnowledge dslKnowledge: hsKnowledge4»
 		context StructureModel
-		inv domain_access_«dslAnalyzer.name»_«dslKnowledge.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslAnalyzer.name»' and c.to.name='«dslKnowledge.name»') 
+		inv domainTaccessT«dslAnalyzer.name»T«dslKnowledge.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslAnalyzer.name»' and c.to.name='«dslKnowledge.name»') 
 
 		«ENDFOR»		
 		«ENDIF»		
@@ -3178,7 +3137,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF rule.equals("true")»
 		«FOR DSLKnowledge dslKnowledge: hsKnowledge5»
 		context StructureModel
-		inv domain_access_«dslPlanner.name»_«dslKnowledge.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslPlanner.name»' and c.to.name='«dslKnowledge.name»') 
+		inv domainTaccessT«dslPlanner.name»T«dslKnowledge.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslPlanner.name»' and c.to.name='«dslKnowledge.name»') 
 
 		«ENDFOR»	
 		«ENDIF»		
@@ -3192,7 +3151,7 @@ class SasDslGenerator extends AbstractGenerator {
 		«IF rule.equals("true")»
 		«FOR DSLKnowledge dslKnowledge: hsKnowledge6»
 		context StructureModel
-		inv domain_access_«dslExecutor.name»_«dslKnowledge.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslExecutor.name»' and c.to.name='«dslKnowledge.name»') 
+		inv domainTaccessT«dslExecutor.name»T«dslKnowledge.name»: AggregatedRelationship.allInstances()->exists(c| c.from.name='«dslExecutor.name»' and c.to.name='«dslKnowledge.name»') 
 		
 		«ENDFOR»
 		«ENDIF»		

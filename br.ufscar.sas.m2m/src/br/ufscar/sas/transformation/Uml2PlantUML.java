@@ -21,7 +21,6 @@ import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Package;
 
 import com.google.common.collect.LinkedListMultimap;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import com.structurizr.Workspace;
 import com.structurizr.io.plantuml.PlantUMLWriter;
@@ -161,7 +160,11 @@ public class Uml2PlantUML {
 					{
 						DeploymentNode d1 = (DeploymentNode) element;
 						DeploymentNode d2 = (DeploymentNode) e;
-						Relationship relationship = d1.uses(d2, "must-use","");
+						Relationship relationship = null;
+						if (title.contains("planned"))
+							relationship = d1.uses(d2, "must-use","");
+						else
+							relationship = d1.uses(d2, "use","");
 						lRelationships.add(relationship);
 					}
 				}
