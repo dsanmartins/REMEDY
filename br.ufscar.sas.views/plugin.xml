@@ -8,7 +8,7 @@
             category="mainview"
             class="br.ufscar.sas.view.MainView"
             id="MainView"
-            name="Identifying AR Drifts in ASs"
+            name="REMEDY"
             icon="icons/sample.gif">
       </view>
       
@@ -36,7 +36,7 @@
             id="br.ufscar.sas.view.commands.category">
       </category>
       <command
-            name="ACC of Adaptive Part in ASs"
+            name="REMEDY: Architectural Checking for Adaptive Concepts"
             categoryId="br.ufscar.sas.view.commands.category"
             id="br.ufscar.sas.view.commands.ui">
       </command>
@@ -74,7 +74,7 @@
    <extension
          point="org.eclipse.ui.perspectives">
          <perspective
-            name="AR Drifts ASs"
+            name="REMEDY"
             icon=""
             class="br.ufscar.sas.view.Perspective"
             id="br.ufscar.sas.view.Perspective">

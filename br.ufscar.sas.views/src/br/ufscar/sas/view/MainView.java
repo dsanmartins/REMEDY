@@ -258,7 +258,7 @@ public class MainView extends ViewPart implements IPartListener2 {
 
 	private void UIMapping(TabFolder tabFolder, String projectName) {
 		TabItem tab1 = new TabItem(tabFolder, SWT.NONE);
-		tab1.setText("Code Elements Mapping");
+		tab1.setText("Code to Abstraction Mapping");
 
 		Group group = new Group(tabFolder, SWT.NONE);
 
@@ -306,7 +306,7 @@ public class MainView extends ViewPart implements IPartListener2 {
 		column.getColumn().setResizable(false);
 
 		TableViewerColumn column2 = new TableViewerColumn(viewer, SWT.CENTER);
-		column2.getColumn().setText("Abstraction");
+		column2.getColumn().setText("Abstraction Declared in DSL");
 		column2.getColumn().setWidth(130);
 		column2.getColumn().setResizable(false);
 
@@ -322,7 +322,7 @@ public class MainView extends ViewPart implements IPartListener2 {
 		//Update combocellviewer
 		tabFolder.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent event) {
-				if (tabFolder.getSelection()[0].getText().equals("Code Elements Mapping"))
+				if (tabFolder.getSelection()[0].getText().equals("Code to Abstraction Mapping"))
 				{
 					EditingAnnotationInstance editingAnnotation = new EditingAnnotationInstance(column2.getViewer(),1);
 					column2.setEditingSupport(editingAnnotation);
@@ -356,8 +356,8 @@ public class MainView extends ViewPart implements IPartListener2 {
 						List<String> specification = Files.readAllLines(Paths.get(architecture.getLocationURI()));
 						specification.remove(0);
 						for (String line : specification) {
-
-							if (line.contains("Rules") || line.contains("rules"))
+						
+							if (line.contentEquals("Rules") || line.contentEquals("rules"))
 								break;
 							else
 							{
@@ -524,7 +524,7 @@ public class MainView extends ViewPart implements IPartListener2 {
 	private void UIControPanel(TabFolder tabFolder, String projectName) {
 
 		TabItem tab1 = new TabItem(tabFolder, SWT.NONE);
-		tab1.setText("Control Panel");
+		tab1.setText("Dashboard");
 
 		ScrolledComposite scroller = new ScrolledComposite(tabFolder, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 		scroller.setExpandVertical(true);
@@ -1026,7 +1026,7 @@ public class MainView extends ViewPart implements IPartListener2 {
 
 					final DefaultPieDataset dataset = new DefaultPieDataset();
 					try {
-						dataset.setValue("Violations", Integer.parseInt(checkConstraintMethod.getTotalViolations()));
+						dataset.setValue("Violations", 100*Integer.parseInt(checkConstraintMethod.getTotalViolations())/(Integer.parseInt(checkConstraintMethod.getTotalViolations())+Integer.parseInt(checkConstraintMethod.getTotalPassed())));
 					} catch (NumberFormatException e2) {
 						// TODO Auto-generated catch block
 						e2.printStackTrace();
@@ -1035,7 +1035,7 @@ public class MainView extends ViewPart implements IPartListener2 {
 						e2.printStackTrace();
 					}
 					try {
-						dataset.setValue("Passed",Integer.parseInt(checkConstraintMethod.getTotalPassed()));
+						dataset.setValue("Passed",100*Integer.parseInt(checkConstraintMethod.getTotalPassed())/(Integer.parseInt(checkConstraintMethod.getTotalViolations())+Integer.parseInt(checkConstraintMethod.getTotalPassed())));
 					} catch (NumberFormatException e2) {
 						// TODO Auto-generated catch block
 						e2.printStackTrace();
